@@ -5,15 +5,21 @@ using UnityEngine;
 public class SceneHandler : Singleton<SceneHandler>
 {
     public PuzzleBoardHandler board;
+    public PuzzleBoardHandler boardLandScape;
+    public PuzzleBoardHandler boardPortrait;
     public MenuManager menuManager;
+    public MenuManager menuManagerPortrait;
     public bool isGamePlay = false;
     public PuzzleBoardHandler puzzleBoard;
     public string baseAssetsURL;
+    public string baseAssetsURLPortrait;
     public Credentials playerData;
+    public bool isPortrait = false;
     // Start is called before the first frame update
     void Start()
     {
-
+        //puzzleBoard = boardLandScape;
+        puzzleBoard = boardPortrait;
     }
 
     // Update is called once per frame
@@ -40,6 +46,9 @@ public class SceneHandler : Singleton<SceneHandler>
             menuManager.gamePlayHandler.gameEndText.text = "Time's up, Better luck next time, ";
             menuManager.gamePlayHandler.gameEndText.gameObject.SetActive(true);
             menuManager.gamePlayHandler.leaderBoard.SetActive(true);
+            menuManager.gamePlayHandler.putStats(APIHandler.Instance.);
         }
     }
+
+
 }

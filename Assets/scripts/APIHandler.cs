@@ -6,6 +6,12 @@ using System;
 using UnityEngine.UI;
 
 [Serializable]
+public class AllUsers
+{
+    public Response[] allUsers;
+}
+
+[Serializable]
 public class Credentials
 {
     public string email;
@@ -22,6 +28,12 @@ public class Response
     public string access_token;
     public string token_type;
     public string expires_at;
+    public int id;
+    public string name;
+    public string phone;
+    public int score;
+    public string email;
+    public int rank;
 }
 
 public class APIHandler : Singleton<APIHandler>
@@ -32,6 +44,8 @@ public class APIHandler : Singleton<APIHandler>
     public string getEndPoint;
     public string UserEndPoint;
     public Sprite check;
+    public AllUsers allUsers;
+    public Response[] temp;
     // Start is called before the first frame update
     void Start()
     {
@@ -47,6 +61,13 @@ public class APIHandler : Singleton<APIHandler>
     private void OnEnable()
     {
         sendLogin();
+    }
+
+    public List<Response> getAllUsers()
+    {
+        List<Response> allUsers;
+
+        return allUsers;
     }
 
     public void sendLogin()
@@ -83,7 +104,8 @@ public class APIHandler : Singleton<APIHandler>
             },
             }).Then(res => {
                 Debug.Log(res.Text);
-                response = JsonUtility.FromJson<Response>(res.Text);
+                //response = JsonUtility.FromJson<Response>(res.Text);
+                allUsers = JsonUtility.FromJson<AllUsers>(res.Text);
             }).Catch(err => {
                 Debug.Log(err.Message);
             });

@@ -12,6 +12,9 @@ public class GamePlayHandler : MonoBehaviour
     public GameObject leaderBoard;
     public Slider timerSlider;
     public bool startTime = false;
+    public RectTransform content;
+    public GameObject statsPrefab;
+    public List<GameObject> allStats;
     float timer;
     // Start is called before the first frame update
     void Start()
@@ -43,5 +46,29 @@ public class GamePlayHandler : MonoBehaviour
         timerSlider.minValue = 0;
         timerSlider.maxValue = time;
         timerSlider.value = timer;
+    }
+
+    public void putStats(List<Response> allPlayers)
+    {
+        clearAllData();
+        content.anchoredPosition = new Vector2(1200, allPlayers.Count * 125); 
+        foreach (Response r in allPlayers)
+        { 
+            GameObject temp;
+            temp = Instantiate(statsPrefab, content.transform);
+            DataBlock newData = temp.GetComponent<DataBlock>();
+            newData.setStats(r.name, r.rank, r.score);
+            allStats.Add(temp);
+        }
+    }
+
+    public void clearAllData()
+    {
+        foreach (GameObject g in allStats)
+        {
+            GameObject temp = g;
+            Destroy(temp);
+        }
+        allStats.Clear();
     }
 }

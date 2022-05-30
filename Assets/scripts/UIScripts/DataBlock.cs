@@ -18,10 +18,10 @@ public class DataBlock : MonoBehaviour
         
     }
 
-    public void setStats(string n, string r, string s)
+    public void setStats(string n, int r, int s)
     {
         name.text = n;
-        rank.text = r;
-
+        rank.text = r.ToString();
+        score.text = s.ToString();
     }
 }

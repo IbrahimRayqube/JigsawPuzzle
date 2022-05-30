@@ -17,7 +17,8 @@ public class PuzzleBoardHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        BGVideo.GetComponent<VideoPlayer>().url = "C:\\Users\\ibrah\\Downloads\\Video\\Landscape.mp4";
+        //BGVideo.GetComponent<VideoPlayer>().url = "C:\\Users\\ibrah\\Downloads\\Video\\Landscape.mp4";
+        BGVideo.GetComponent<VideoPlayer>().url = "C:\\Users\\97158\\Downloads\\Landscape.mp4";
         //resetPuzzle();
     }
 

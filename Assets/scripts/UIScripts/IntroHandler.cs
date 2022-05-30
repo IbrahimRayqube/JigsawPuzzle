@@ -25,7 +25,8 @@ public class IntroHandler : MonoBehaviour
     private void OnEnable()
     {
         //introVideoPlayer.clip = introVideoLandscape;
-        introVideoPlayer.url = "C:\\Users\\ibrah\\Downloads\\Video\\Landscape.mp4";
+        //introVideoPlayer.url = "C:\\Users\\ibrah\\Downloads\\Video\\Landscape.mp4";
+        introVideoPlayer.url = "C:\\Users\\97158\\Downloads\\Landscape.mp4";
         //if (Screen.orientation == ScreenOrientation.Landscape || Screen.orientation == ScreenOrientation.LandscapeLeft || Screen.orientation == ScreenOrientation.LandscapeRight)
         //{
         //    introVideoPlayer.clip = introVideoLandscape;
