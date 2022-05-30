@@ -66,8 +66,19 @@ public class APIHandler : Singleton<APIHandler>
     public List<Response> getAllUsers()
     {
         List<Response> allUsers;
-
-        return allUsers;
+        RestClient.Request(new RequestHelper
+        {
+            Uri = baseURL + getEndPoint,
+            Method = "GET",
+            Headers = new Dictionary<string, string> {
+                    { "Accept", "application/json" },
+                { "Authorization", "Bearer " +response.access_token }
+            }
+        }).Then(res => {
+            allUsers = JsonUtility.FromJson<List<Response>>(res.Text);
+            return allUsers;
+        });
+        return null;
     }
 
     public void sendLogin()

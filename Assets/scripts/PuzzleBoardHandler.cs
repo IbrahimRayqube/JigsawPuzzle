@@ -17,8 +17,8 @@ public class PuzzleBoardHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //BGVideo.GetComponent<VideoPlayer>().url = "C:\\Users\\ibrah\\Downloads\\Video\\Landscape.mp4";
-        BGVideo.GetComponent<VideoPlayer>().url = "C:\\Users\\97158\\Downloads\\Landscape.mp4";
+        BGVideo.GetComponent<VideoPlayer>().url = "C:\\Users\\ibrah\\Downloads\\Video\\Landscape.mp4";
+        //BGVideo.GetComponent<VideoPlayer>().url = "C:\\Users\\97158\\Downloads\\Landscape.mp4";
         //resetPuzzle();
     }
 
@@ -95,8 +95,16 @@ public class PuzzleBoardHandler : MonoBehaviour
                 p.replacePiece(newPosition);
             }
         }
-        SceneHandler.Instance.menuManager.gamePlayHandler.gameObject.SetActive(true);
-        SceneHandler.Instance.menuManager.gamePlayHandler.startTimer(10);
+        if (!SceneHandler.Instance.isPortrait)
+        {
+            SceneHandler.Instance.menuManager.gamePlayHandler.gameObject.SetActive(true);
+            SceneHandler.Instance.menuManager.gamePlayHandler.startTimer(SceneHandler.Instance.GameTime);
+        }
+        else
+        {
+            SceneHandler.Instance.menuManagerPortrait.gamePlayHandler.gameObject.SetActive(true);
+            SceneHandler.Instance.menuManagerPortrait.gamePlayHandler.startTimer(SceneHandler.Instance.GameTime);
+        }
     }
 
     public void incrementScore()
@@ -108,7 +116,18 @@ public class PuzzleBoardHandler : MonoBehaviour
             Debug.Log("You win");
             SceneHandler.Instance.menuManager.gamePlayHandler.gameEndText.gameObject.SetActive(true);
             SceneHandler.Instance.menuManager.gamePlayHandler.leaderBoard.SetActive(true);
+            SceneHandler.Instance.menuManager.gamePlayHandler.leaderBoard.GetComponent<TweenPosition>().PlayForward();
             //SceneHandler.Instance.playerData.score
+        }
+    }
+
+    public void setToCorrectPosition()
+    {
+        score = 0;
+        timer = 0;
+        foreach (PieceHandler p in allBoardBoxes)
+        {
+            p.setToCorrectPosition();
         }
     }
 }

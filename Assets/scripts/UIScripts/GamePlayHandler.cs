@@ -32,8 +32,9 @@ public class GamePlayHandler : MonoBehaviour
             timerSlider.value = timer;
             if (timer <= 0)
             {
-                timerText.gameObject.SetActive(false);
+                //timerText.gameObject.SetActive(false);
                 timerSlider.gameObject.SetActive(false);
+                startTime = false;
                 SceneHandler.Instance.timeUp();
             }
         }
@@ -46,10 +47,13 @@ public class GamePlayHandler : MonoBehaviour
         timerSlider.minValue = 0;
         timerSlider.maxValue = time;
         timerSlider.value = timer;
+        timerSlider.gameObject.SetActive(true);
     }
 
     public void putStats(List<Response> allPlayers)
     {
+        if (allPlayers == null)
+            return;
         clearAllData();
         content.anchoredPosition = new Vector2(1200, allPlayers.Count * 125); 
         foreach (Response r in allPlayers)

@@ -65,12 +65,14 @@ public class TweenPosition : UITweener
 
 	static public TweenPosition Begin (GameObject go, float duration, Vector3 pos)
 	{
+		Debug.Log("Begin 1 called");
 		TweenPosition comp = UITweener.Begin<TweenPosition>(go, duration);
 		comp.from = comp.value;
 		comp.to = pos;
 
 		if (duration <= 0f)
 		{
+			Debug.Log("Called");
 			comp.Sample(1f, true);
 			comp.enabled = false;
 		}
@@ -83,6 +85,7 @@ public class TweenPosition : UITweener
 
 	static public TweenPosition Begin (GameObject go, float duration, Vector3 pos, bool worldSpace)
 	{
+		Debug.Log("Begin 2 called");
 		TweenPosition comp = UITweener.Begin<TweenPosition>(go, duration);
 		comp.worldSpace = worldSpace;
 		comp.from = comp.value;
@@ -90,6 +93,7 @@ public class TweenPosition : UITweener
 
 		if (duration <= 0f)
 		{
+			Debug.Log("Called");
 			comp.Sample(1f, true);
 			comp.enabled = false;
 		}

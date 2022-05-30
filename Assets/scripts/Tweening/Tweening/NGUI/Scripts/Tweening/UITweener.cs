@@ -200,10 +200,14 @@ public abstract class UITweener : MonoBehaviour
 				mAmountPerDelta = -mAmountPerDelta;
 			}
 		}
-
+		//Debug.Log(transform.parent.name + " " + mFactor);
 		// If the factor goes out of range and this is a one-time tweening operation, disable the script
 		if ((style == Style.Once) && (duration == 0f || mFactor > 1f || mFactor < 0f))
 		{
+			//if (transform.parent.name.Equals("RegistrationPopupBG"))
+			//{
+			//	Debug.Log(mFactor);
+			//}
 			mFactor = Mathf.Clamp01(mFactor);
 			Sample(mFactor, true);
 			enabled = false;

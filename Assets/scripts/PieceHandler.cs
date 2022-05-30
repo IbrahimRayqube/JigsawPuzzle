@@ -11,13 +11,13 @@ public class PieceHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        correctPossition = transform.position;
+        isOnRightPosition = false;
     }
 
     private void OnEnable()
     {
-        correctPossition = transform.position;
-        isOnRightPosition = false;
+
     }
 
     // Update is called once per frame
@@ -39,7 +39,7 @@ public class PieceHandler : MonoBehaviour
         {
             isOnRightPosition = true;
             transform.position = correctPossition;
-            SceneHandler.Instance.board.incrementScore();
+            SceneHandler.Instance.puzzleBoard.incrementScore();
         }
     }
 
@@ -47,6 +47,11 @@ public class PieceHandler : MonoBehaviour
     {
         newPosition = newPos;
         replacing = true;
+    }
+
+    public void setToCorrectPosition()
+    {
+        transform.position = correctPossition;
     }
 
 }

@@ -13,7 +13,7 @@ public class IntroHandler : MonoBehaviour
     public VideoPlayer introVideoPlayer;
     public TMP_Text tapToPlayText;
     public Image logo;
-    bool tapped = false;
+    public bool tapped = false;
     bool startTimer = false;
     float timer;
     // Start is called before the first frame update
@@ -25,8 +25,8 @@ public class IntroHandler : MonoBehaviour
     private void OnEnable()
     {
         //introVideoPlayer.clip = introVideoLandscape;
-        //introVideoPlayer.url = "C:\\Users\\ibrah\\Downloads\\Video\\Landscape.mp4";
-        introVideoPlayer.url = "C:\\Users\\97158\\Downloads\\Landscape.mp4";
+        introVideoPlayer.url = "C:\\Users\\ibrah\\Downloads\\Video\\Landscape.mp4";
+        //introVideoPlayer.url = "C:\\Users\\97158\\Downloads\\Landscape.mp4";
         //if (Screen.orientation == ScreenOrientation.Landscape || Screen.orientation == ScreenOrientation.LandscapeLeft || Screen.orientation == ScreenOrientation.LandscapeRight)
         //{
         //    introVideoPlayer.clip = introVideoLandscape;
@@ -47,9 +47,12 @@ public class IntroHandler : MonoBehaviour
                 tapped = true;
                 tapToPlayText.GetComponent<textFadeInNOut>().fadeOut();
                 logo.GetComponent<Animator>().SetTrigger("animate");
+                timer = 0;
                 startTimer = true;
                 logo.GetComponent<TweenPosition>().enabled = true;
                 logo.GetComponent<TweenScale>().enabled = true;
+                logo.GetComponent<TweenPosition>().PlayForward();
+                logo.GetComponent<TweenScale>().PlayForward();
             }
         }
         if (startTimer)
@@ -57,7 +60,15 @@ public class IntroHandler : MonoBehaviour
             timer += Time.deltaTime;
             if (timer >= 1)
             {
-                SceneHandler.Instance.menuManager.registrationHandler.showRegistrationPanel();
+                if (!SceneHandler.Instance.isPortrait)
+                {
+                    SceneHandler.Instance.menuManager.registrationHandler.showRegistrationPanel();
+                }
+                else
+                {
+                    SceneHandler.Instance.menuManagerPortrait.registrationHandler.showRegistrationPanel();
+                }
+                startTimer = false;
             }
         }
     }
@@ -76,5 +87,28 @@ public class IntroHandler : MonoBehaviour
             i.color = new Color(i.color.r, i.color.g, i.color.b, i.color.a - (Time.deltaTime / t));
             yield return null;
         }
+    }
+
+    public void unfadeIntroVideo()
+    {
+        StartCoroutine(unfadeImageToZeroAlpha(2));
+    }
+
+    public IEnumerator unfadeImageToZeroAlpha(float t)
+    {
+        RawImage i = introVideoPlayer.GetComponent<RawImage>();
+        i.color = new Color(i.color.r, i.color.g, i.color.b, 1);
+        while (i.color.a < 1)
+        {
+            i.color = new Color(i.color.r, i.color.g, i.color.b, i.color.a + (Time.deltaTime / t));
+            yield return null;
+        }
+    }
+
+    public void Reset()
+    {
+        tapped = false;
+        logo.GetComponent<TweenPosition>().enabled = false;
+        logo.GetComponent<TweenScale>().enabled = false;
     }
 }

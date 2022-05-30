@@ -32,6 +32,17 @@ public class KeyBoardManager : MonoBehaviour
 
     public void DeleteLetter()
     {
+        if (textBox.text.Length != 0)
+        {
+            textBox.text = textBox.text.Remove(textBox.text.Length - 1, 1);
+            //SceneHandler.Instance.menuManager.updateLists();
+        }
+        //if (textBox.text.Length == 0)
+        //{
+            //SceneHandler.Instance.menuManager.clearBtn.gameObject.SetActive(false);
+        //}
+        //timer = 0;
+        //SceneHandler.Instance.timer = 0;
     }
 
     public void AddLetter(string letter)
