@@ -14,11 +14,14 @@ public class SceneHandler : Singleton<SceneHandler>
     public PuzzleBoardHandler puzzleBoard;
     public string baseAssetsURL;
     public string baseAssetsURLPortrait;
-    public Credentials playerData;
+    public Credentials playerData = new Credentials();
     public bool isPortrait = false;
     public int GameTime;
     public string consentPath = "C:\\Users\\ibrah\\Documents\\consent.txt";
     public string consentString;
+    public GameObject warningPopup;
+    public TMPro.TMP_Text warningMsg;
+    //public bool settingsButtonShown = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -96,12 +99,13 @@ public class SceneHandler : Singleton<SceneHandler>
         {
             puzzleBoard.gameObject.SetActive(false);
             // Fail Situation
-            menuManager.gamePlayHandler.gameEndText.text = "Time's up, Better luck next time, ";
+            menuManager.gamePlayHandler.gameEndText.text = "Time's up, Better luck next time, " + playerData.name;
             menuManager.gamePlayHandler.gameEndText.gameObject.SetActive(true);
             menuManager.gamePlayHandler.gameEndText.GetComponent<TweenPosition>().PlayForward();
             menuManager.gamePlayHandler.leaderBoard.SetActive(true);
             menuManager.gamePlayHandler.leaderBoard.GetComponent<TweenPosition>().PlayForward();
-            menuManager.gamePlayHandler.putStats(APIHandler.Instance.getAllUsers());
+            APIHandler.Instance.getAllUsers();
+            menuManager.gamePlayHandler.putStats(APIHandler.Instance.root);
             StartCoroutine(backToIntro());
         }
     }

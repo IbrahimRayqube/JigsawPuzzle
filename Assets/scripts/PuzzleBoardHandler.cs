@@ -10,6 +10,7 @@ public class PuzzleBoardHandler : MonoBehaviour
     public Sprite currentImage;
     public GameObject selectedPuzzleBlock;
     public float rMinX, rMaxX, lMinX, lMaxX, yMin, yMax;
+    public float pMinX, pMaxX, pMinY, pMaxY;
     public float timer;
     public int score;
     public GameObject BGVideo;
@@ -81,27 +82,33 @@ public class PuzzleBoardHandler : MonoBehaviour
     {
         yield return new WaitForSeconds(3);
         int temp;
-        foreach (PieceHandler p in allBoardBoxes)
-        {
-            temp = Random.Range(0, 2);
-            if (temp == 0)
-            {
-                Vector3 newPosition = new Vector3(Random.Range(rMinX, rMaxX), Random.Range(yMin, yMax), 0);
-                p.replacePiece(newPosition);
-            }
-            else if (temp == 1)
-            {
-                Vector3 newPosition = new Vector3(Random.Range(lMinX, lMaxX), Random.Range(yMin, yMax), 0);
-                p.replacePiece(newPosition);
-            }
-        }
+        
         if (!SceneHandler.Instance.isPortrait)
         {
+            foreach (PieceHandler p in allBoardBoxes)
+            {
+                temp = Random.Range(0, 2);
+                if (temp == 0)
+                {
+                    Vector3 newPosition = new Vector3(Random.Range(rMinX, rMaxX), Random.Range(yMin, yMax), 0);
+                    p.replacePiece(newPosition);
+                }
+                else if (temp == 1)
+                {
+                    Vector3 newPosition = new Vector3(Random.Range(lMinX, lMaxX), Random.Range(yMin, yMax), 0);
+                    p.replacePiece(newPosition);
+                }
+            }
             SceneHandler.Instance.menuManager.gamePlayHandler.gameObject.SetActive(true);
             SceneHandler.Instance.menuManager.gamePlayHandler.startTimer(SceneHandler.Instance.GameTime);
         }
         else
         {
+            foreach (PieceHandler p in allBoardBoxes)
+            {
+                Vector3 newPosition = new Vector3(Random.Range(pMinX, pMaxX), Random.Range(pMinY, pMaxY), 0);
+                p.replacePiece(newPosition);
+            }
             SceneHandler.Instance.menuManagerPortrait.gamePlayHandler.gameObject.SetActive(true);
             SceneHandler.Instance.menuManagerPortrait.gamePlayHandler.startTimer(SceneHandler.Instance.GameTime);
         }
@@ -114,9 +121,17 @@ public class PuzzleBoardHandler : MonoBehaviour
         {
             SceneHandler.Instance.isGamePlay = false;
             Debug.Log("You win");
+            SceneHandler.Instance.menuManager.gamePlayHandler.gameEndText.text = "Congratulations You completed the puzzle, Your score is " + score;
+            SceneHandler.Instance.playerData.score = score;
+            SceneHandler.Instance.playerData.played_at = "2022-12-20 12:25:20";
+            APIHandler.Instance.sendUserStats(SceneHandler.Instance.playerData);
             SceneHandler.Instance.menuManager.gamePlayHandler.gameEndText.gameObject.SetActive(true);
             SceneHandler.Instance.menuManager.gamePlayHandler.leaderBoard.SetActive(true);
             SceneHandler.Instance.menuManager.gamePlayHandler.leaderBoard.GetComponent<TweenPosition>().PlayForward();
+            Debug.Log("Put stats");
+            APIHandler.Instance.getAllUsers();
+            SceneHandler.Instance.menuManager.gamePlayHandler.putStats(APIHandler.Instance.root);
+            this.gameObject.SetActive(false);
             //SceneHandler.Instance.playerData.score
         }
     }

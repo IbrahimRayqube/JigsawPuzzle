@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Text.RegularExpressions;
 
 public class RegistrationHandler : MonoBehaviour
 {
@@ -33,6 +34,10 @@ public class RegistrationHandler : MonoBehaviour
 
     public void showRegistrationPanel()
     {
+        nameText.text = "";
+        emailText.text = "";
+        phoneText.text = "";
+        consent.isOn = false;
         registrationPopup.gameObject.SetActive(true);
         //registrationAnimator.SetBool("Visible", true);
         registrationPopup.GetComponent<TweenPosition>().enabled = true;
@@ -47,14 +52,48 @@ public class RegistrationHandler : MonoBehaviour
         keyboard.GetComponent<TweenPosition>().PlayForward();
     }
 
+    public static bool isValidEmail(string inputEmail)
+    {
+        string strRegex = @"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}" +
+              @"\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\" +
+              @".)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$";
+        Regex re = new Regex(strRegex);
+        if (re.IsMatch(inputEmail))
+            return (true);
+        else
+            return (false);
+    }
+
     public void onClickSubmit()
     {
+        if (!isValidEmail(emailText.text))
+        {
+            SceneHandler.Instance.warningMsg.text = "Please enter a valid E-Mail";
+            SceneHandler.Instance.warningPopup.SetActive(true);
+            return;
+        }
+        else if (nameText.text == "")
+        {
+            SceneHandler.Instance.warningMsg.text = "Name field can not be empty";
+            SceneHandler.Instance.warningPopup.SetActive(true);
+            return;
+        }
+        else if (phoneText.text == "")
+        {
+            SceneHandler.Instance.warningMsg.text = "Phone field can not be empty";
+            SceneHandler.Instance.warningPopup.SetActive(true);
+            return;
+        }
+
+        SceneHandler.Instance.menuManager.settingsBtn.SetActive(false);
+        //SceneHandler.Instance.playerData.init();
+        //SceneHandler.Instance.playerData.played_at = "2022-12-20 12:25:20";
+        //APIHandler.Instance.sendUserStats(SceneHandler.Instance.playerData);
         SceneHandler.Instance.puzzleBoard.gameObject.SetActive(true);
         SceneHandler.Instance.puzzleBoard.setToCorrectPosition();
         SceneHandler.Instance.playerData.name = nameText.text;
         SceneHandler.Instance.playerData.phone = phoneText.text;
         SceneHandler.Instance.playerData.email = emailText.text;
-
         StartCoroutine(showPuzzleWithDelay());
     }
 

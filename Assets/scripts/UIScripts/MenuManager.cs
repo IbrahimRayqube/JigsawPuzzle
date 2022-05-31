@@ -7,6 +7,7 @@ public class MenuManager : MonoBehaviour
     public IntroHandler introHandler;
     public RegistrationHandler registrationHandler;
     public GamePlayHandler gamePlayHandler;
+    public GameObject settingsBtn;
     // Start is called before the first frame update
     void Start()
     {

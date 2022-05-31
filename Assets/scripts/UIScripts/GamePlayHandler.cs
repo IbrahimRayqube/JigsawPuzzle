@@ -50,19 +50,22 @@ public class GamePlayHandler : MonoBehaviour
         timerSlider.gameObject.SetActive(true);
     }
 
-    public void putStats(List<Response> allPlayers)
+    public void putStats(Response[] allPlayers)
     {
         if (allPlayers == null)
             return;
         clearAllData();
-        content.anchoredPosition = new Vector2(1200, allPlayers.Count * 125); 
+        int count = 1;
+        content.sizeDelta = new Vector2(1200, allPlayers.Length * 125); 
         foreach (Response r in allPlayers)
-        { 
+        {
+            r.rank = count;
             GameObject temp;
             temp = Instantiate(statsPrefab, content.transform);
             DataBlock newData = temp.GetComponent<DataBlock>();
             newData.setStats(r.name, r.rank, r.score);
             allStats.Add(temp);
+            count++;
         }
     }
 
