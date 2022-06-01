@@ -111,7 +111,7 @@ public class SceneHandler : Singleton<SceneHandler>
             menuManager.gamePlayHandler.leaderBoard.SetActive(true);
             menuManager.gamePlayHandler.leaderBoard.GetComponent<TweenPosition>().PlayForward();
             APIHandler.Instance.getAllUsers();
-            menuManager.gamePlayHandler.putStats(APIHandler.Instance.root);
+            //menuManager.gamePlayHandler.putStats(APIHandler.Instance.root);
             StartCoroutine(backToIntro());
         }
     }

@@ -5,14 +5,27 @@ using System.IO;
 
 public class CSVEditor : Singleton<CSVEditor>
 {
-    public string filepath;
+    string filepath;
     StreamWriter editor;
     StreamReader reader;
     public List<Response> dataFromFile;
+    string path;
         // Start is called before the first frame update
     void Start()
     {
-        
+        path = Application.dataPath;
+        if (Application.platform == RuntimePlatform.OSXPlayer)
+        {
+            path += "/../../";
+        }
+        else if (Application.platform == RuntimePlatform.WindowsPlayer)
+        {
+            path += "/../";
+        }
+        filepath = path + "\\csv.csv";
+        //filepath = "D:\\RayQubeProjects\\JigsawPuzzle\\Builds\\V0.1\\csv.csv";
+        Debug.Log(filepath);
+        readFromFile();
     }
 
     // Update is called once per frame
@@ -23,6 +36,7 @@ public class CSVEditor : Singleton<CSVEditor>
 
     public void writeOnFile(Response[] allUsers)
     {
+        Debug.Log("Writing");
         editor = new StreamWriter(filepath, false);
         editor.WriteLine("Name, Phone, Email, Score, Rank");
         editor.Close();
@@ -34,10 +48,12 @@ public class CSVEditor : Singleton<CSVEditor>
         }
 
         editor.Close();
+        dataFromFile = readFromFile();
     }
 
     public List<Response> readFromFile()
     {
+        Debug.Log("Reading from file");
         dataFromFile = new List<Response>();
         reader = new StreamReader(filepath);
         bool endOfFile = false;

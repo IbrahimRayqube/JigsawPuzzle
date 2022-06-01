@@ -112,21 +112,49 @@ public class APIHandler : Singleton<APIHandler>
     private void OnEnable()
     {
         sendLogin();
+        checkInternet();
+        CSVEditor.Instance.readFromFile();
         //getAllUsers();
+    }
+
+    public bool checkInternet()
+    {
+        bool b = false;
+        StartCoroutine(checkInternetConnection((isConnected) => {
+            b = isConnected;
+        }));
+        return b;
+    }
+
+    IEnumerator checkInternetConnection(Action<bool> action)
+    {
+        WWW www = new WWW("http://google.com");
+        yield return www;
+        if (www.error != null)
+        {
+            SceneHandler.Instance.warningMsg.text = "Unable to access servers! Please check your network connection, and restart your application.";
+            SceneHandler.Instance.warningPopup.SetActive(true);
+            action(false);
+        }
+        else
+        {
+            action(true);
+        }
     }
 
     public List<Response> getAllUsers()
     {
-        if (Application.internetReachability == NetworkReachability.NotReachable)
+        Debug.Log("Getting User");
+        if (checkInternet())
         {
             SceneHandler.Instance.warningMsg.text = "Unable to access servers! Please check your network connection, and restart your application.";
             SceneHandler.Instance.warningPopup.SetActive(true);
-            List<Response> fromFile = CSVEditor.Instance.readFromFile();
-            root = new Response[fromFile.Count];
+            root = new Response[CSVEditor.Instance.dataFromFile.Count];
             for (int i = 0; i < root.Length; i++)
             {
-                root[i] = fromFile[i];
+                root[i] = CSVEditor.Instance.dataFromFile[i];
             }
+            SceneHandler.Instance.menuManager.gamePlayHandler.putStats(root);
         }
         else
         {
@@ -140,10 +168,17 @@ public class APIHandler : Singleton<APIHandler>
             }).Then(res =>
             {
                 root = JsonHelper.ArrayFromJson<Response>(res.Text);
+                CSVEditor.Instance.writeOnFile(root);
+                SceneHandler.Instance.menuManager.gamePlayHandler.putStats(root);
                 return root;
             }).Catch(res =>
             {
-                Debug.Log("Error: " + res);
+                root = new Response[CSVEditor.Instance.dataFromFile.Count];
+                for (int i = 0; i < root.Length; i++)
+                {
+                    root[i] = CSVEditor.Instance.dataFromFile[i];
+                }
+                SceneHandler.Instance.menuManager.gamePlayHandler.putStats(root);
                 return null;
             });
         }
@@ -173,6 +208,7 @@ public class APIHandler : Singleton<APIHandler>
         }).Then(res => {
             Debug.Log(res.Text);
             response = JsonUtility.FromJson<Response>(res.Text);
+            getAllUsers();
         }).Catch(err => {
             Debug.Log(err.Message);
         });

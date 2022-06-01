@@ -6,15 +6,25 @@ using UnityEngine.UI;
 public class LoadSprite : MonoBehaviour
 {
     public string assetName;
+    string path;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     private void OnEnable()
     {
-        GetComponent<Image>().sprite = LoadImageAsSprite(Application.dataPath + "\\UI\\Landscape\\" + assetName );
+        path = Application.dataPath;
+        if (Application.platform == RuntimePlatform.OSXPlayer)
+        {
+            path += "/../../";
+        }
+        else if (Application.platform == RuntimePlatform.WindowsPlayer)
+        {
+            path += "/../";
+        }
+        GetComponent<Image>().sprite = LoadImageAsSprite(path + "\\UI\\Landscape\\" + assetName );
     }
 
     // Update is called once per frame

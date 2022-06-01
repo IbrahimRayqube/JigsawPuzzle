@@ -14,13 +14,31 @@ public class PuzzleBoardHandler : MonoBehaviour
     public float timer;
     public int score;
     public GameObject BGVideo;
-
+    public string path;
     // Start is called before the first frame update
     void Start()
     {
         //BGVideo.GetComponent<VideoPlayer>().url = "C:\\Users\\ibrah\\Downloads\\Video\\Landscape.mp4";
         //BGVideo.GetComponent<VideoPlayer>().url = "C:\\Users\\97158\\Downloads\\Landscape.mp4";
         //resetPuzzle();
+        path = Application.dataPath;
+        if (Application.platform == RuntimePlatform.OSXPlayer)
+        {
+            path += "/../../";
+        }
+        else if (Application.platform == RuntimePlatform.WindowsPlayer)
+        {
+            path += "/../";
+        }
+        if (SceneHandler.Instance.isPortrait)
+        {
+
+            BGVideo.GetComponent<VideoPlayer>().url = path + "\\Videos\\portait.mp4";
+        }
+        else
+        {
+            BGVideo.GetComponent<VideoPlayer>().url = path + "\\Videos\\landscape.mp4";
+        }
     }
 
     // Update is called once per frame

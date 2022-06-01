@@ -16,6 +16,7 @@ public class IntroHandler : MonoBehaviour
     public bool tapped = false;
     bool startTimer = false;
     float timer;
+    string path;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,13 +27,23 @@ public class IntroHandler : MonoBehaviour
     {
         //introVideoPlayer.clip = introVideoLandscape;
         //introVideoPlayer.url = "C:\\Users\\ibrah\\Downloads\\Video\\Landscape.mp4";
+        path = Application.dataPath;
+        if (Application.platform == RuntimePlatform.OSXPlayer)
+        {
+            path += "/../../";
+        }
+        else if (Application.platform == RuntimePlatform.WindowsPlayer)
+        {
+            path += "/../";
+        }
         if (SceneHandler.Instance.isPortrait)
         {
-            introVideoPlayer.url = Application.persistentDataPath + "\\Videos\\portait.mp4";
+            
+            introVideoPlayer.url = path + "\\Videos\\portait.mp4";
         }
         else
         {
-            introVideoPlayer.url = Application.persistentDataPath + "/Videos/landscape.mp4";
+            introVideoPlayer.url = path + "\\Videos\\landscape.mp4";
         }
         //introVideoPlayer.url = "C:\\Users\\97158\\Downloads\\Landscape.mp4";
         //if (Screen.orientation == ScreenOrientation.Landscape || Screen.orientation == ScreenOrientation.LandscapeLeft || Screen.orientation == ScreenOrientation.LandscapeRight)
