@@ -18,7 +18,7 @@ public class PuzzleBoardHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        BGVideo.GetComponent<VideoPlayer>().url = "C:\\Users\\ibrah\\Downloads\\Video\\Landscape.mp4";
+        //BGVideo.GetComponent<VideoPlayer>().url = "C:\\Users\\ibrah\\Downloads\\Video\\Landscape.mp4";
         //BGVideo.GetComponent<VideoPlayer>().url = "C:\\Users\\97158\\Downloads\\Landscape.mp4";
         //resetPuzzle();
     }
@@ -119,17 +119,27 @@ public class PuzzleBoardHandler : MonoBehaviour
         score++;
         if (score >= allBoardBoxes.Length)
         {
+            APIHandler.Instance.getAllUsers();
             SceneHandler.Instance.isGamePlay = false;
             Debug.Log("You win");
             SceneHandler.Instance.menuManager.gamePlayHandler.gameEndText.text = "Congratulations You completed the puzzle, Your score is " + score;
             SceneHandler.Instance.playerData.score = score;
             SceneHandler.Instance.playerData.played_at = "2022-12-20 12:25:20";
+            Response[] newArray = new Response[APIHandler.Instance.root.Length + 1];
+            for (int i = 0; i < APIHandler.Instance.root.Length; i++)
+            {
+                newArray[i] = APIHandler.Instance.root[i];
+            }
+            newArray[newArray.Length - 1].name = SceneHandler.Instance.playerData.name;
+            newArray[newArray.Length - 1].score = SceneHandler.Instance.playerData.score;
+            newArray[newArray.Length - 1].phone = SceneHandler.Instance.playerData.phone;
+            newArray[newArray.Length - 1].email = SceneHandler.Instance.playerData.email;
+            CSVEditor.Instance.writeOnFile(newArray);
             APIHandler.Instance.sendUserStats(SceneHandler.Instance.playerData);
             SceneHandler.Instance.menuManager.gamePlayHandler.gameEndText.gameObject.SetActive(true);
             SceneHandler.Instance.menuManager.gamePlayHandler.leaderBoard.SetActive(true);
             SceneHandler.Instance.menuManager.gamePlayHandler.leaderBoard.GetComponent<TweenPosition>().PlayForward();
             Debug.Log("Put stats");
-            APIHandler.Instance.getAllUsers();
             SceneHandler.Instance.menuManager.gamePlayHandler.putStats(APIHandler.Instance.root);
             this.gameObject.SetActive(false);
             //SceneHandler.Instance.playerData.score

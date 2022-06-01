@@ -25,7 +25,15 @@ public class IntroHandler : MonoBehaviour
     private void OnEnable()
     {
         //introVideoPlayer.clip = introVideoLandscape;
-        introVideoPlayer.url = "C:\\Users\\ibrah\\Downloads\\Video\\Landscape.mp4";
+        //introVideoPlayer.url = "C:\\Users\\ibrah\\Downloads\\Video\\Landscape.mp4";
+        if (SceneHandler.Instance.isPortrait)
+        {
+            introVideoPlayer.url = Application.persistentDataPath + "\\Videos\\portait.mp4";
+        }
+        else
+        {
+            introVideoPlayer.url = Application.persistentDataPath + "/Videos/landscape.mp4";
+        }
         //introVideoPlayer.url = "C:\\Users\\97158\\Downloads\\Landscape.mp4";
         //if (Screen.orientation == ScreenOrientation.Landscape || Screen.orientation == ScreenOrientation.LandscapeLeft || Screen.orientation == ScreenOrientation.LandscapeRight)
         //{
@@ -40,7 +48,7 @@ public class IntroHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && Application.internetReachability != NetworkReachability.NotReachable)
+        if (Input.GetMouseButtonDown(0) /*&& Application.internetReachability != NetworkReachability.NotReachable*/)
         {
             if (!tapped)
             {

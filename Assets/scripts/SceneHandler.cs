@@ -21,10 +21,16 @@ public class SceneHandler : Singleton<SceneHandler>
     public string consentString;
     public GameObject warningPopup;
     public TMPro.TMP_Text warningMsg;
+    public GameObject warningPopupPortrait;
+    public TMPro.TMP_Text warningMsgPortrait;
+    [SerializeField]
+    public string landscapeVideoURL = Application.dataPath + "\\Videos\\landscape.mp4", portraitVideoURL = Application.dataPath + "\\Videos\\portait.mp4";
     //public bool settingsButtonShown = false;
     // Start is called before the first frame update
     void Start()
     {
+        portraitVideoURL = Application.dataPath + "\\Videos\\portait.mp4";
+        landscapeVideoURL = Application.dataPath + "/Videos/landscape.mp4";
         //GameTime = PlayerPrefs.GetInt("Time", 0);
         switch (PlayerPrefs.GetInt("Time", 0))
         {

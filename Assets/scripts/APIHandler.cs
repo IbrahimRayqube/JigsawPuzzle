@@ -121,20 +121,32 @@ public class APIHandler : Singleton<APIHandler>
         {
             SceneHandler.Instance.warningMsg.text = "Unable to access servers! Please check your network connection, and restart your application.";
             SceneHandler.Instance.warningPopup.SetActive(true);
+            List<Response> fromFile = CSVEditor.Instance.readFromFile();
+            root = new Response[fromFile.Count];
+            for (int i = 0; i < root.Length; i++)
+            {
+                root[i] = fromFile[i];
+            }
         }
-        RestClient.Request(new RequestHelper
+        else
         {
-            Uri = baseURL + getEndPoint,
-            Method = "GET",
-            Headers = new Dictionary<string, string> {
+            RestClient.Request(new RequestHelper
+            {
+                Uri = baseURL + getEndPoint,
+                Method = "GET",
+                Headers = new Dictionary<string, string> {
                 { "Authorization", "Bearer " +response.access_token }
             }
-        }).Then(res => {
-            root = JsonHelper.ArrayFromJson<Response>(res.Text);
-            return root;
-        }).Catch(res => {
-            Debug.Log("Error: " + res);
-        });
+            }).Then(res =>
+            {
+                root = JsonHelper.ArrayFromJson<Response>(res.Text);
+                return root;
+            }).Catch(res =>
+            {
+                Debug.Log("Error: " + res);
+                return null;
+            });
+        }
         return null;
     }
 

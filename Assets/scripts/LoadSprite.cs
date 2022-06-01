@@ -14,7 +14,7 @@ public class LoadSprite : MonoBehaviour
 
     private void OnEnable()
     {
-        GetComponent<Image>().sprite = LoadImageAsSprite(SceneHandler.Instance.baseAssetsURL + assetName );
+        GetComponent<Image>().sprite = LoadImageAsSprite(Application.dataPath + "\\UI\\Landscape\\" + assetName );
     }
 
     // Update is called once per frame
