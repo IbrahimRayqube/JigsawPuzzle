@@ -15,10 +15,6 @@ public class RegistrationHandler : MonoBehaviour
     public Toggle consent;
     public Button submitButton;
     //public Dropdown orientationDropDown, puzzeTimeDropDown;
-    public TMPro.TMP_Text passwordText;
-    public TMP_Dropdown orientation;
-    public TMP_Dropdown timeDropDown;
-    public GameObject settingsPopup;
     public TMP_Text consentText;
     // Start is called before the first frame update
     void Start()
@@ -134,21 +130,6 @@ public class RegistrationHandler : MonoBehaviour
             consentAccepted = false;
             submitButton.interactable = false;
         }
-    }
-
-    public void onClickSubmitSettings()
-    {
-        if (passwordText.text.Equals("RayQube"))
-        {
-            PlayerPrefs.SetInt("Orientation", orientation.value);
-            PlayerPrefs.SetInt("Time", timeDropDown.value);
-            settingsPopup.SetActive(false);
-        }
-    }
-
-    public void onPressSettings()
-    {
-        settingsPopup.gameObject.SetActive(true);
     }
 
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Proyecto26;
 using System;
+using System.Linq;
 using UnityEngine.UI;
 using System.IO;
 
@@ -56,6 +57,7 @@ public class Response
     public int score;
     public string email;
     public int rank;
+    public bool isOnServer;
 }
 
 //public static class JsonHelper
@@ -113,9 +115,11 @@ public class APIHandler : Singleton<APIHandler>
     {
         sendLogin();
         checkInternet();
-        CSVEditor.Instance.readFromFile();
+        //CSVEditor.Instance.readFromFile();
         //getAllUsers();
     }
+
+
 
     public bool checkInternet()
     {
@@ -144,11 +148,9 @@ public class APIHandler : Singleton<APIHandler>
 
     public List<Response> getAllUsers()
     {
-        Debug.Log("Getting User");
+        Debug.Log("Getting User 1");
         if (checkInternet())
         {
-            SceneHandler.Instance.warningMsg.text = "Unable to access servers! Please check your network connection, and restart your application.";
-            SceneHandler.Instance.warningPopup.SetActive(true);
             root = new Response[CSVEditor.Instance.dataFromFile.Count];
             for (int i = 0; i < root.Length; i++)
             {
@@ -158,6 +160,7 @@ public class APIHandler : Singleton<APIHandler>
         }
         else
         {
+            Debug.Log("Getting User 2");
             RestClient.Request(new RequestHelper
             {
                 Uri = baseURL + getEndPoint,
@@ -167,12 +170,20 @@ public class APIHandler : Singleton<APIHandler>
             }
             }).Then(res =>
             {
+                Debug.Log("Getting User 3");
                 root = JsonHelper.ArrayFromJson<Response>(res.Text);
-                CSVEditor.Instance.writeOnFile(root);
+                //CSVEditor.Instance.writeOnFile(root);
+                foreach (Response r in root)
+                {
+                    r.isOnServer = true;
+                }
+                //CSVEditor.Instance.writeOnFile(root);
                 SceneHandler.Instance.menuManager.gamePlayHandler.putStats(root);
-                return root;
+                CSVEditor.Instance.checkOnServerEntries();
+                return root.ToList<Response>();
             }).Catch(res =>
             {
+                Debug.Log("Getting User 10: "+res);
                 root = new Response[CSVEditor.Instance.dataFromFile.Count];
                 for (int i = 0; i < root.Length; i++)
                 {
@@ -187,10 +198,9 @@ public class APIHandler : Singleton<APIHandler>
 
     public void sendLogin()
     {
-        if (Application.internetReachability == NetworkReachability.NotReachable)
+        if (checkInternet())
         {
-            SceneHandler.Instance.warningMsg.text = "Unable to access servers! Please check your network connection, and restart your application.";
-            SceneHandler.Instance.warningPopup.SetActive(true);
+            return;
         }
         Credentials credentials = new Credentials();
         credentials.email = "unity@rayqube.com";
@@ -214,27 +224,31 @@ public class APIHandler : Singleton<APIHandler>
         });
     }
 
-    public void sendUserStats(Credentials playerData) {
-        if (Application.internetReachability == NetworkReachability.NotReachable)
+    public void sendUserStats(Credentials playerData)
+    {
+        if (checkInternet())
         {
             SceneHandler.Instance.warningMsg.text = "Unable to access servers! Please check your network connection, and restart your application.";
             SceneHandler.Instance.warningPopup.SetActive(true);
-        }
-        Debug.Log("Sinding user stats");
-        RestClient.Request(new RequestHelper
-        {
-            Uri = baseURL + UserEndPoint,
-            Method = "POST",
-            Body = playerData,
-            Headers = new Dictionary<string, string> {
+
+            Debug.Log("Sinding user stats");
+            RestClient.Request(new RequestHelper
+            {
+                Uri = baseURL + UserEndPoint,
+                Method = "POST",
+                Body = playerData,
+                Headers = new Dictionary<string, string> {
                 { "Authorization", "Bearer " +response.access_token }
             }
-        }).Then(res => {
-            Debug.Log(res.Text);
-            //root = JsonHelper.ArrayFromJson<Response>(res.Text);
-            //return root;
-        }).Catch(res => {
-            Debug.Log("Error: " + res);
-        });
+            }).Then(res =>
+            {
+                Debug.Log(res.Text);
+                //root = JsonHelper.ArrayFromJson<Response>(res.Text);
+                //return root;
+            }).Catch(res =>
+            {
+                Debug.Log("Error: " + res);
+            });
+        }
     }
 }

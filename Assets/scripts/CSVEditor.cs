@@ -9,9 +9,15 @@ public class CSVEditor : Singleton<CSVEditor>
     StreamWriter editor;
     StreamReader reader;
     public List<Response> dataFromFile;
+    public List<Response> dataFromServer;
     string path;
         // Start is called before the first frame update
     void Start()
+    {
+        Debug.Log("Initialized");
+    }
+
+    private void OnEnable()
     {
         path = Application.dataPath;
         if (Application.platform == RuntimePlatform.OSXPlayer)
@@ -23,10 +29,38 @@ public class CSVEditor : Singleton<CSVEditor>
             path += "/../";
         }
         filepath = path + "\\csv.csv";
-        //filepath = "D:\\RayQubeProjects\\JigsawPuzzle\\Builds\\V0.1\\csv.csv";
+        filepath = "D:\\RayQubeProjects\\JigsawPuzzle\\Builds\\V0.1\\csv.csv";
         Debug.Log(filepath);
         readFromFile();
     }
+
+    public void checkOnServerEntries()
+    {
+        Debug.Log("Checking server entries: " + dataFromFile.Count);
+        if (APIHandler.Instance.checkInternet())
+        {
+            Debug.Log("Checking");
+            foreach (Response r in dataFromFile)
+            {
+                if (!r.isOnServer)
+                {
+                    Debug.Log("Found unregistered player!");
+                    Credentials c = new Credentials();
+                    c.name = r.name;
+                    c.email = r.email;
+                    c.phone = r.phone;
+                    c.score = r.score;
+                    APIHandler.Instance.sendUserStats(c);
+                }
+            }
+        }
+       // Debug.Log("Reading Data from Server again");
+        //dataFromServer = APIHandler.Instance.getAllUsers();
+        Debug.Log("Recieved data: " + dataFromServer.Count);
+        writeOnFile(APIHandler.Instance.root);
+    }
+
+
 
     // Update is called once per frame
     void Update()
@@ -38,15 +72,15 @@ public class CSVEditor : Singleton<CSVEditor>
     {
         Debug.Log("Writing");
         editor = new StreamWriter(filepath, false);
-        editor.WriteLine("Name, Phone, Email, Score, Rank");
+        editor.WriteLine("Name, Phone, Email, Score, Rank, isOnServer");
         editor.Close();
 
         editor = new StreamWriter(filepath, true);
         for(int i = 0; i < allUsers.Length; i++)
         {
-            editor.WriteLine(allUsers[i].name + ", " + allUsers[i].phone + ", " + allUsers[i].email + ", " + allUsers[i].score);
+            editor.WriteLine(allUsers[i].name + ", " + allUsers[i].phone + ", " + allUsers[i].email + ", " + allUsers[i].score + ", "+allUsers[i].rank+ ", " + allUsers[i].isOnServer);
         }
-
+        editor.Flush();
         editor.Close();
         dataFromFile = readFromFile();
     }
@@ -76,8 +110,12 @@ public class CSVEditor : Singleton<CSVEditor>
             temp.phone = data_Values[1].ToString();
             temp.email = data_Values[2].ToString();
             temp.score = int.Parse(data_Values[3]);
+            temp.isOnServer = bool.Parse(data_Values[4]);
             dataFromFile.Add(temp);
         }
+        reader.Close();
+        //checkOnServerEntries();
+        Debug.Log("Reading from file completed");
         return dataFromFile;
     }
 

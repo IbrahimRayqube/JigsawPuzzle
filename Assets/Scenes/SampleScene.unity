@@ -218,10 +218,6 @@ MonoBehaviour:
   consentAccepted: 0
   consent: {fileID: 595208276}
   submitButton: {fileID: 444408569}
-  passwordText: {fileID: 1503312251}
-  orientation: {fileID: 1667793809}
-  timeDropDown: {fileID: 591339376}
-  settingsPopup: {fileID: 1319584789}
   consentText: {fileID: 271535363}
 --- !u!1 &14422868
 GameObject:
@@ -575,7 +571,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &23065458
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4451,7 +4447,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 150815334}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b4fb8b9eab16de4fb14338e22b5bb67, type: 3}
   m_Name: 
@@ -5996,7 +5992,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 241659257}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b4fb8b9eab16de4fb14338e22b5bb67, type: 3}
   m_Name: 
@@ -8011,7 +8007,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 335947626}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b4fb8b9eab16de4fb14338e22b5bb67, type: 3}
   m_Name: 
@@ -13372,7 +13368,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 612233465}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b4fb8b9eab16de4fb14338e22b5bb67, type: 3}
   m_Name: 
@@ -15970,7 +15966,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 723317629}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b4fb8b9eab16de4fb14338e22b5bb67, type: 3}
   m_Name: 
@@ -22176,7 +22172,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1041348296}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b4fb8b9eab16de4fb14338e22b5bb67, type: 3}
   m_Name: 
@@ -24306,7 +24302,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1137234721}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b4fb8b9eab16de4fb14338e22b5bb67, type: 3}
   m_Name: 
@@ -26564,7 +26560,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1309483340}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b4fb8b9eab16de4fb14338e22b5bb67, type: 3}
   m_Name: 
@@ -27620,6 +27616,7 @@ MonoBehaviour:
     score: 0
     email: 
     rank: 0
+    isOnServer: 0
   baseURL: https://castyourevent.com/jigsaw_unity/public/api/auth
   loginEndPoint: /login
   getEndPoint: /user/get-all
@@ -28086,6 +28083,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dataFromFile: []
+  dataFromServer: []
 --- !u!4 &1420361604
 Transform:
   m_ObjectHideFlags: 0
@@ -32018,7 +32016,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1586579575}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b4fb8b9eab16de4fb14338e22b5bb67, type: 3}
   m_Name: 
@@ -32151,7 +32149,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1594458545}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b4fb8b9eab16de4fb14338e22b5bb67, type: 3}
   m_Name: 
@@ -36303,7 +36301,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1767065441}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b4fb8b9eab16de4fb14338e22b5bb67, type: 3}
   m_Name: 
@@ -36779,7 +36777,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1807700363}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b4fb8b9eab16de4fb14338e22b5bb67, type: 3}
   m_Name: 
@@ -37577,7 +37575,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1862677832}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b4fb8b9eab16de4fb14338e22b5bb67, type: 3}
   m_Name: 
@@ -37776,7 +37774,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1872107264}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b4fb8b9eab16de4fb14338e22b5bb67, type: 3}
   m_Name: 
@@ -39799,7 +39797,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2014816165}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b4fb8b9eab16de4fb14338e22b5bb67, type: 3}
   m_Name: 
@@ -40872,10 +40870,6 @@ MonoBehaviour:
   consentAccepted: 0
   consent: {fileID: 171143266}
   submitButton: {fileID: 150815335}
-  passwordText: {fileID: 940106863}
-  orientation: {fileID: 329895851}
-  timeDropDown: {fileID: 510961123}
-  settingsPopup: {fileID: 785200775}
   consentText: {fileID: 887176687}
 --- !u!224 &2071937166
 RectTransform:

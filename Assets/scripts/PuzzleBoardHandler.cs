@@ -137,7 +137,7 @@ public class PuzzleBoardHandler : MonoBehaviour
         score++;
         if (score >= allBoardBoxes.Length)
         {
-            APIHandler.Instance.getAllUsers();
+            //APIHandler.Instance.getAllUsers();
             SceneHandler.Instance.isGamePlay = false;
             Debug.Log("You win");
             SceneHandler.Instance.menuManager.gamePlayHandler.gameEndText.text = "Congratulations You completed the puzzle, Your score is " + score;
@@ -152,6 +152,14 @@ public class PuzzleBoardHandler : MonoBehaviour
             newArray[newArray.Length - 1].score = SceneHandler.Instance.playerData.score;
             newArray[newArray.Length - 1].phone = SceneHandler.Instance.playerData.phone;
             newArray[newArray.Length - 1].email = SceneHandler.Instance.playerData.email;
+            if (!APIHandler.Instance.checkInternet())
+            {
+                newArray[newArray.Length - 1].isOnServer = false;
+            }
+            else
+            {
+                newArray[newArray.Length - 1].isOnServer = true;
+            }
             CSVEditor.Instance.writeOnFile(newArray);
             APIHandler.Instance.sendUserStats(SceneHandler.Instance.playerData);
             SceneHandler.Instance.menuManager.gamePlayHandler.gameEndText.gameObject.SetActive(true);
@@ -160,7 +168,7 @@ public class PuzzleBoardHandler : MonoBehaviour
             Debug.Log("Put stats");
             SceneHandler.Instance.menuManager.gamePlayHandler.putStats(APIHandler.Instance.root);
             this.gameObject.SetActive(false);
-            //SceneHandler.Instance.playerData.score
+            //SceneHandler.Instance.playerData.score971525913255
         }
     }
 
