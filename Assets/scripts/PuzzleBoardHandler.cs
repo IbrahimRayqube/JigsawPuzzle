@@ -137,7 +137,13 @@ public class PuzzleBoardHandler : MonoBehaviour
         score++;
         if (score >= allBoardBoxes.Length)
         {
+            selectedPuzzleBlock = null;
+            foreach (PieceHandler p in allBoardBoxes)
+            {
+                p.setToCorrectPosition();
+            }
             //APIHandler.Instance.getAllUsers();
+            SceneHandler.Instance.showConfetti();
             SceneHandler.Instance.isGamePlay = false;
             Debug.Log("You win");
             SceneHandler.Instance.menuManager.gamePlayHandler.gameEndText.text = "Congratulations You completed the puzzle, Your score is " + score;
@@ -148,6 +154,7 @@ public class PuzzleBoardHandler : MonoBehaviour
             {
                 newArray[i] = APIHandler.Instance.root[i];
             }
+            newArray[newArray.Length - 1] = new Response();
             newArray[newArray.Length - 1].name = SceneHandler.Instance.playerData.name;
             newArray[newArray.Length - 1].score = SceneHandler.Instance.playerData.score;
             newArray[newArray.Length - 1].phone = SceneHandler.Instance.playerData.phone;

@@ -13,7 +13,7 @@ public class LoadSprite : MonoBehaviour
 
     }
 
-    private void OnEnable()
+    public void OnEnable()
     {
         path = Application.dataPath;
         if (Application.platform == RuntimePlatform.OSXPlayer)
@@ -25,6 +25,7 @@ public class LoadSprite : MonoBehaviour
             path += "/../";
         }
         GetComponent<Image>().sprite = LoadImageAsSprite(path + "\\UI\\Landscape\\" + assetName );
+        Debug.Log(path + "\\UI\\Landscape\\" + assetName);
     }
 
     // Update is called once per frame

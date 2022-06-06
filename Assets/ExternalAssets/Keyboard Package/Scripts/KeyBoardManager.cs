@@ -15,7 +15,8 @@ public class KeyBoardManager : MonoBehaviour
     {
         Instance = this;
         //printBox.text = "";
-        textBox.text = "";
+        if(textBox != null)
+            textBox.text = "";
         //textBox.MoveTextEnd(true);
         //textBox.caretWidth = 2;
     }
@@ -32,6 +33,8 @@ public class KeyBoardManager : MonoBehaviour
 
     public void DeleteLetter()
     {
+        if (textBox == null)
+            return;
         if (textBox.text.Length != 0)
         {
             textBox.text = textBox.text.Remove(textBox.text.Length - 1, 1);
@@ -47,11 +50,13 @@ public class KeyBoardManager : MonoBehaviour
 
     public void AddLetter(string letter)
     {
+        if (textBox == null)
+            return;
         //textBox.ActivateInputField();
         //textBox.Select();
         //textBox.caretPosition = textBox.text.Length;
         //textBox.caretBlinkRate = 1;
-        
+
         textBox.text = textBox.text + letter;
 
         //StartCoroutine(showCaret());
