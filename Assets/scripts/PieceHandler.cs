@@ -17,7 +17,7 @@ public class PieceHandler : MonoBehaviour
 
     private void OnEnable()
     {
-
+        isOnRightPosition = false;
     }
 
     // Update is called once per frame

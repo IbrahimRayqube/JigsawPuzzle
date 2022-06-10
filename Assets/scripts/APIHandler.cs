@@ -136,8 +136,15 @@ public class APIHandler : Singleton<APIHandler>
         yield return www;
         if (www.error != null)
         {
-            SceneHandler.Instance.warningMsg.text = "Unable to access servers! Please check your network connection, and restart your application.";
-            SceneHandler.Instance.warningPopup.SetActive(true);
+            if (PlayerPrefs.GetInt("ShowWarning", 1) == 1)
+            {
+                SceneHandler.Instance.warningMsg.text = "Unable to access servers! Please check your network connection, and restart your application.";
+                SceneHandler.Instance.warningPopup.SetActive(true);
+            }
+            else
+            {
+                
+            }
             action(false);
         }
         else
@@ -228,8 +235,8 @@ public class APIHandler : Singleton<APIHandler>
     {
         if (checkInternet())
         {
-            SceneHandler.Instance.warningMsg.text = "Unable to access servers! Please check your network connection, and restart your application.";
-            SceneHandler.Instance.warningPopup.SetActive(true);
+            //SceneHandler.Instance.warningMsg.text = "Unable to access servers! Please check your network connection, and restart your application.";
+            //SceneHandler.Instance.warningPopup.SetActive(true);
 
             Debug.Log("Sinding user stats");
             RestClient.Request(new RequestHelper

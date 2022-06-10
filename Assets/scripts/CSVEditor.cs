@@ -29,7 +29,7 @@ public class CSVEditor : Singleton<CSVEditor>
             path += "/../";
         }
         filepath = path + "\\csv.csv";
-        filepath = "D:\\RayQubeProjects\\JigsawPuzzle\\Builds\\V0.1\\csv.csv";
+        //filepath = "D:\\RayQubeProjects\\JigsawPuzzle\\Builds\\V1.0\\csv.csv";
         Debug.Log(filepath);
         readFromFile();
     }
@@ -57,7 +57,7 @@ public class CSVEditor : Singleton<CSVEditor>
        // Debug.Log("Reading Data from Server again");
         //dataFromServer = APIHandler.Instance.getAllUsers();
         Debug.Log("Recieved data: " + dataFromServer.Count);
-        writeOnFile(APIHandler.Instance.root);
+        //writeOnFile(APIHandler.Instance.root);
     }
 
 
@@ -70,16 +70,20 @@ public class CSVEditor : Singleton<CSVEditor>
 
     public void writeOnFile(Response[] allUsers)
     {
+        string data = "";
         Debug.Log("Writing");
         editor = new StreamWriter(filepath, false);
-        editor.WriteLine("Name, Phone, Email, Score, Rank, isOnServer");
-        editor.Close();
+        data = "Name, Phone, Email, Score, Rank, isOnServer \n";
+        //editor.WriteLine("Name, Phone, Email, Score, Rank, isOnServer");
+        //editor.Close();
 
-        editor = new StreamWriter(filepath, true);
+        //editor = new StreamWriter(filepath, true);
         for(int i = 0; i < allUsers.Length; i++)
         {
-            editor.WriteLine(allUsers[i].name + ", " + allUsers[i].phone + ", " + allUsers[i].email + ", " + allUsers[i].score + ", "+allUsers[i].rank+ ", " + allUsers[i].isOnServer);
+            data += allUsers[i].name + ", " + allUsers[i].phone + ", " + allUsers[i].email + ", " + allUsers[i].score + ", " + allUsers[i].rank + ", " + allUsers[i].isOnServer + "\n";
+            //editor.WriteLine(allUsers[i].name + ", " + allUsers[i].phone + ", " + allUsers[i].email + ", " + allUsers[i].score + ", "+allUsers[i].rank+ ", " + allUsers[i].isOnServer);
         }
+        editor.WriteLine(data);
         editor.Flush();
         editor.Close();
         dataFromFile = readFromFile();
@@ -94,6 +98,7 @@ public class CSVEditor : Singleton<CSVEditor>
         string line = reader.ReadLine();
         if (line == null)
         {
+            reader.Close();
             return null;
         }
         while (!endOfFile)
@@ -104,14 +109,18 @@ public class CSVEditor : Singleton<CSVEditor>
                 endOfFile = true;
                 break;
             }
-            var data_Values = Data.Split(',');
-            Response temp = new Response();
-            temp.name = data_Values[0].ToString();
-            temp.phone = data_Values[1].ToString();
-            temp.email = data_Values[2].ToString();
-            temp.score = int.Parse(data_Values[3]);
-            temp.isOnServer = bool.Parse(data_Values[4]);
-            dataFromFile.Add(temp);
+            if (Data != "")
+            {
+                var data_Values = Data.Split(',');
+                Response temp = new Response();
+                temp.name = data_Values[0].ToString();
+                temp.phone = data_Values[1].ToString();
+                temp.email = data_Values[2].ToString();
+                temp.score = int.Parse(data_Values[3]);
+                temp.rank = int.Parse(data_Values[4]);
+                temp.isOnServer = bool.Parse(data_Values[5]);
+                dataFromFile.Add(temp);
+            }
         }
         reader.Close();
         //checkOnServerEntries();

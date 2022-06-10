@@ -24,11 +24,13 @@ public class SceneHandler : Singleton<SceneHandler>
     public GameObject warningPopupPortrait;
     public TMPro.TMP_Text warningMsgPortrait;
     [SerializeField]
-    public string landscapeVideoURL = Application.dataPath + "\\Videos\\landscape.mp4", portraitVideoURL = Application.dataPath + "\\Videos\\portait.mp4";
+    public string landscapeVideoURL, portraitVideoURL;
+    public GameObject[] confettiLandscape, confettiPortrait;
     //public bool settingsButtonShown = false;
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log(Application.dataPath);
         portraitVideoURL = Application.dataPath + "\\Videos\\portait.mp4";
         landscapeVideoURL = Application.dataPath + "/Videos/landscape.mp4";
         //GameTime = PlayerPrefs.GetInt("Time", 0);
@@ -113,6 +115,49 @@ public class SceneHandler : Singleton<SceneHandler>
             APIHandler.Instance.getAllUsers();
             //menuManager.gamePlayHandler.putStats(APIHandler.Instance.root);
             StartCoroutine(backToIntro());
+        }
+    }
+
+    public void moveBackToIntro()
+    {
+        StartCoroutine(backToIntro());
+    }
+
+    public void showConfetti()
+    {
+        StartCoroutine(showConfettiWithDelay());
+    }
+
+    IEnumerator showConfettiWithDelay()
+    {
+        if (isPortrait)
+        {
+            foreach (GameObject c in confettiPortrait)
+            {
+                c.SetActive(true);
+            }
+        }
+        else
+        {
+            foreach (GameObject c in confettiLandscape)
+            {
+                c.SetActive(true);
+            }
+        }
+        yield return new WaitForSeconds(3);
+        if (isPortrait)
+        {
+            foreach (GameObject c in confettiPortrait)
+            {
+                c.SetActive(false);
+            }
+        }
+        else
+        {
+            foreach (GameObject c in confettiLandscape)
+            {
+                c.SetActive(false);
+            }
         }
     }
 

@@ -66,14 +66,27 @@ public class PuzzleBoardHandler : MonoBehaviour
                 selectedPuzzleBlock = null;
             }
         }
+        if (!SceneHandler.Instance.isGamePlay)
+        {
+            if (selectedPuzzleBlock != null)
+            {
+                selectedPuzzleBlock = null;
+            }
+        }
     }
 
     private void FixedUpdate()
     {
-        if (selectedPuzzleBlock != null)
+        if (selectedPuzzleBlock != null && SceneHandler.Instance.isGamePlay)
         {
             Vector3 mPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mPos = new Vector3(
+                Mathf.Clamp(mPos.x, lMaxX, rMaxX),
+                Mathf.Clamp(mPos.y, yMax, yMin),
+                mPos.z
+                );
             selectedPuzzleBlock.transform.position = new Vector3(mPos.x, mPos.y, 0);
+
         }
     }
 
@@ -137,8 +150,15 @@ public class PuzzleBoardHandler : MonoBehaviour
         score++;
         if (score >= allBoardBoxes.Length)
         {
-            //APIHandler.Instance.getAllUsers();
             SceneHandler.Instance.isGamePlay = false;
+            selectedPuzzleBlock = null;
+            foreach (PieceHandler p in allBoardBoxes)
+            {
+                p.setToCorrectPosition();
+                //p.isOnRightPosition = false;
+            }
+            //APIHandler.Instance.getAllUsers();
+            SceneHandler.Instance.showConfetti();
             Debug.Log("You win");
             SceneHandler.Instance.menuManager.gamePlayHandler.gameEndText.text = "Congratulations You completed the puzzle, Your score is " + score;
             SceneHandler.Instance.playerData.score = score;
@@ -148,6 +168,7 @@ public class PuzzleBoardHandler : MonoBehaviour
             {
                 newArray[i] = APIHandler.Instance.root[i];
             }
+            newArray[newArray.Length - 1] = new Response();
             newArray[newArray.Length - 1].name = SceneHandler.Instance.playerData.name;
             newArray[newArray.Length - 1].score = SceneHandler.Instance.playerData.score;
             newArray[newArray.Length - 1].phone = SceneHandler.Instance.playerData.phone;
@@ -167,8 +188,9 @@ public class PuzzleBoardHandler : MonoBehaviour
             SceneHandler.Instance.menuManager.gamePlayHandler.leaderBoard.GetComponent<TweenPosition>().PlayForward();
             Debug.Log("Put stats");
             SceneHandler.Instance.menuManager.gamePlayHandler.putStats(APIHandler.Instance.root);
+            SceneHandler.Instance.moveBackToIntro();
             this.gameObject.SetActive(false);
-            //SceneHandler.Instance.playerData.score971525913255
+            //SceneHandler.Instance.playerData.score
         }
     }
 
