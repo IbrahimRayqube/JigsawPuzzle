@@ -150,6 +150,16 @@ public class PuzzleBoardHandler : MonoBehaviour
         score++;
         if (score >= allBoardBoxes.Length)
         {
+<<<<<<< HEAD
+=======
+            selectedPuzzleBlock = null;
+            foreach (PieceHandler p in allBoardBoxes)
+            {
+                p.setToCorrectPosition();
+            }
+            //APIHandler.Instance.getAllUsers();
+            SceneHandler.Instance.showConfetti();
+>>>>>>> 447fb4875f412c3a040e62bdace619c86ae1ba57
             SceneHandler.Instance.isGamePlay = false;
             selectedPuzzleBlock = null;
             foreach (PieceHandler p in allBoardBoxes)

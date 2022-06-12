@@ -10,5 +10,9 @@ asd, asd, sada@gmail.com, 0, 8, True
 asd, asd, sada@gmail.com, 0, 9, True
 asd, asd, sada@gmail.com, 0, 10, True
 asd, asd, sada@gmail.com, 0, 11, True
+<<<<<<< HEAD
 ttt, tttt, y@xxx.or, 36, 0, False
+=======
+tttt, gggg, yu@ff.com, 36, 0, False
+>>>>>>> 447fb4875f412c3a040e62bdace619c86ae1ba57
 

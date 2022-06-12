@@ -118,11 +118,14 @@ public class SceneHandler : Singleton<SceneHandler>
         }
     }
 
+<<<<<<< HEAD
     public void moveBackToIntro()
     {
         StartCoroutine(backToIntro());
     }
 
+=======
+>>>>>>> 447fb4875f412c3a040e62bdace619c86ae1ba57
     public void showConfetti()
     {
         StartCoroutine(showConfettiWithDelay());
